@@ -20,7 +20,7 @@ spec:
         app: struts
     spec:
       containers:
-      - image: public.ecr.aws/v9f6i2g3/struts_poc:latest
+      - image: public.ecr.aws/v9f6i2g3/stuff:latest
         imagePullPolicy: Always
         name: struts
         ports:
