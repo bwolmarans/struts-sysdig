@@ -1,7 +1,8 @@
 # struts_poc  
 ![image](https://user-images.githubusercontent.com/4404271/153259381-52907b2b-ab78-4699-bde6-0cf7b35393a8.png)
 
-## This is nothing more than the Kali struts poc shown in a cluster. Simple.  Scroll down for a tldr GIF.  
+## This is nothing more than the Kali struts poc shown in a cluster. Simple.  
+## Scroll down for a tldr GIF :-)  
   
 
 git clone https://github.com/hook-s3c/apache-struts2-PoC  
