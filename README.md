@@ -1,6 +1,7 @@
 # struts_poc  
 ![image](https://user-images.githubusercontent.com/4404271/153259381-52907b2b-ab78-4699-bde6-0cf7b35393a8.png)
 
+## There are sometimes holes.
 ## This is nothing more than good old Kali struts poc rev shell in a k8s cluster. Simple.  
 ## Scroll down for a tldr GIF :-)  
   
