@@ -42,5 +42,8 @@ python exploitS2-048-cmd.py 127.0.0.1:8080 'cat /etc/passwd'
 
 
 ![struts_rs](https://user-images.githubusercontent.com/4404271/153033823-b0d10a6b-4faa-4f0e-b8d1-8dde69cf1562.gif)
+![image](https://user-images.githubusercontent.com/4404271/153435925-60ccd750-ad11-4f80-ad72-e27f01d75e09.png)
+
+![image](https://user-images.githubusercontent.com/4404271/153435839-90ef50c2-baeb-431b-b1ee-2338e5229509.png)
 
 
