@@ -1,5 +1,5 @@
 # struts_poc  
-all credit to https://github.com/hook-s3c/apache-struts2-PoC, all I did was make it work in EKS, and maybe bring it to life a bit more. 
+all credit to https://github.com/hook-s3c/apache-struts2-PoC, all I did is add a few things, bring it to life a bit more, EKS, etc.
 
 ![image](https://user-images.githubusercontent.com/4404271/153259381-52907b2b-ab78-4699-bde6-0cf7b35393a8.png)
 
