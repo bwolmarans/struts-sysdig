@@ -91,7 +91,20 @@ So we simply toggle our curl POST policy to ON, this has the Falco rule to fire 
 and has an action to kill the container:  
 ![image](https://user-images.githubusercontent.com/4404271/155774866-38990415-0101-43f1-a6ab-8090bfd2f1fb.png)
 
-And it works! The container is killed so quickly, the passwd never shows up on the CC server (I know, I tested it probably a hundred times)  
+here is that Falco rule - it is identical to the one for the curl GET, just without the NOT negation:  
+![image](https://user-images.githubusercontent.com/4404271/155775341-b22453cb-bb5b-4448-9f15-1d79bbe4d170.png)
+
+And it works! The container is killed so quickly, the passwd never shows up on the CC server (I know, I tested it probably a hundred times, and I have a replica set of two apache struts containers behind my LoadBalancer )  
+![image](https://user-images.githubusercontent.com/4404271/155775568-61d26d3e-4cfe-4c52-b914-afc3101079b0.png)
+
+Here you see my first instance was selected by the LoadBalancer target group, and also, my second instance.  You can see the restarts and you can see the one instance is in error when I make this screenshot:  
+
+![image](https://user-images.githubusercontent.com/4404271/155775818-dde27d24-5e23-4650-a3ce-d0794628db26.png)
+
+and here you can see, nothing ever appears on my CC server, no passwd file is POSTed:  
+![image](https://user-images.githubusercontent.com/4404271/155776198-0e438449-c168-4308-9fc3-38f26b9109f0.png)
+
+
 
 `Step 5`  
 
