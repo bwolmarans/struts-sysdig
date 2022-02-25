@@ -91,6 +91,8 @@ here is that Falco rule - it is identical to the one for the curl GET, just with
 ![image](https://user-images.githubusercontent.com/4404271/155775341-b22453cb-bb5b-4448-9f15-1d79bbe4d170.png)
 
 And it works! The container is killed so quickly, the passwd never shows up on the CC server (I know, I tested it probably a hundred times, and I have a replica set of two apache struts containers behind my LoadBalancer )  
+![image](https://user-images.githubusercontent.com/4404271/155782926-87ce6b08-b549-4ac7-989f-80e1528077a2.png)
+
 ![image](https://user-images.githubusercontent.com/4404271/155775568-61d26d3e-4cfe-4c52-b914-afc3101079b0.png)
 
 Here you see my first instance was selected by the LoadBalancer target group, and also, my second instance.  You can see the restarts and you can see the one instance is in error when I make this screenshot:  
