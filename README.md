@@ -4,7 +4,7 @@ all credit to https://github.com/hook-s3c/apache-struts2-PoC, all I did is add a
 ![image](https://user-images.githubusercontent.com/4404271/153259381-52907b2b-ab78-4699-bde6-0cf7b35393a8.png)
 
 There are sometimes holes in our runtimes. This is nothing more than good old Kali struts poc rev shell in a k8s cluster. Simple.  
-![image](https://user-images.githubusercontent.com/4404271/155783401-56aeae38-1297-4838-b94e-a2ff31477d29.png)
+![image](https://user-images.githubusercontent.com/4404271/155783401-56aeae38-1297-4838-b94e-a2ff31477d29.png)  
 `Hints to get this working yourself before we dive into the Steps:`    
 
 git clone https://github.com/hook-s3c/apache-struts2-PoC  
