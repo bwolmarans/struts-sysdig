@@ -5,3 +5,4 @@ RUN set -ex \
         && chmod a+x /usr/local/tomcat/bin/*.sh
 COPY struts2-showcase-2.3.12.war /usr/local/tomcat/webapps/ROOT.war
 EXPOSE 8080
+
